@@ -17,17 +17,25 @@
                 </el-table-column>
               </el-table>
               <div class="totalDiv">
-                <smail>数量：</smail>{{totalCount}}
-                <smail>金额：</smail>{{totalMoney}}元
+                <small>数量：</small>{{totalCount}}
+                <small>金额：</small>{{totalMoney}}元
               </div>
               <div class="div-btn">
-                <el-button type="warning">挂单</el-button>
+                <el-button type="warning" @click="hangBill">挂单</el-button>
                 <el-button type="danger" @click="delAllGoods">删除</el-button>
                 <el-button type="success" @click="checkout">结账</el-button>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="挂单">
-              挂单
+            <el-tab-pane label="挂单" >
+              <el-collapse v-model="activeNames" >
+                <el-collapse-item  :title="bill.billId"  v-for="(bill,index) in bills" :key="index" class="left">
+                  <div v-for="food in bill.tableData" class="justify">
+                    <span>{{food.goodsName}}</span>
+                    <span>{{food.count}}份</span>
+                  </div>
+                </el-collapse-item>
+              </el-collapse>
+              <el-button type="text" size="small" @click="getBill">刷新</el-button>
             </el-tab-pane>
             <el-tab-pane label="外卖">
               外卖
@@ -47,7 +55,7 @@
               </ul>
             </div>
           </div>
-  
+
           <div class="goods-type">
             <el-tabs>
               <el-tab-pane label="汉堡">
@@ -127,6 +135,8 @@ export default {
       type3Goods: [],
       // totalCount: 0,
       // totalMoney: 0,
+      activeNames: ['1'],
+      bills:null
     }
   },
   created() {
@@ -155,7 +165,7 @@ export default {
         alert('网络错误，不能访问');
       })
   },
-  mounted: function () {
+  mounted: function() {
     var orderHeight = document.body.clientHeight;
     document.querySelector("#order-list").style.height = orderHeight + 'px';
   },
@@ -194,6 +204,7 @@ export default {
     },
     //删除单个商品
     delSingleGoods(goods) {
+      console.log(goods)
       this.tableData = this.tableData.filter(o => o.goodsId != goods.goodsId)
     },
     //删除多个商品列表
@@ -215,6 +226,26 @@ export default {
         this.$message.error('不能空结。老板了解你急切的心情！');
       }
 
+    },
+    //挂单
+    hangBill() {
+      let billLists;
+      if(localStorage.getItem('billLists')){
+        billLists=JSON.parse(localStorage.getItem('billLists'));
+      }else{
+        billLists=[];
+      }
+      let billList=new Object();
+      billList.tableData=this.tableData;      
+      billList.billId = +new Date() + "" ;
+      billLists.push(billList);
+      console.log(billLists);
+      localStorage.setItem('billLists', JSON.stringify(billLists));
+      this.tableData = [];      
+    },
+    getBill(){
+      this.bills=JSON.parse(localStorage.getItem('billLists'));
+      alert(this.bills.length);
     }
   },
   computed: {//不写在methods里面用计算属性也可以
@@ -308,5 +339,14 @@ export default {
   background-color: #fff;
   padding: 10px;
   border-bottom: 1px solid #58B7FF;
+}
+
+.left{
+  text-align: left;
+}
+
+.justify{
+  display: flex;
+  justify-content: space-between;
 }
 </style>
