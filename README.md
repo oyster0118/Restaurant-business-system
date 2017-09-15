@@ -1,6 +1,6 @@
-# awesome-pos
+# 💡 Restaurant-business-system
 
-> A Vue.js project
+- [GITHUB](https://github.com/oyster0118/Restaurant-business-system)
 
 ## Build Setup
 
@@ -18,4 +18,3 @@ npm run build
 npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
