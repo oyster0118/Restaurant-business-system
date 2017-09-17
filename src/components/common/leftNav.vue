@@ -1,40 +1,42 @@
 <template>
   <div class="left-nav">
     <ul>
-      <li>
+      <router-link tag="li" to="/pos">
         <i class="icon iconfont icon-goumai"></i>
         <div>收银</div>
-      </li>
+      </router-link>
   
-      <li>
+      <router-link tag="li" to="/shop">
         <i class="icon iconfont icon-dianpu"></i>
         <div>店铺</div>
-      </li>
+      </router-link>
   
-      <li>
+      <router-link tag="li" to="/raw">
         <i class="icon iconfont icon-hanbao"></i>
-        <div>商品</div>
-      </li>
+        <div>原料</div>
+      </router-link>
   
-      <li>
+      <router-link tag="li" to="/member">
         <i class="icon iconfont icon-huiyuanqia"></i>
         <div>会员</div>
-      </li>
+      </router-link>
   
-      <li>
+      <router-link tag="li" to="/statistics">
         <i class="icon iconfont icon-zuanshi"></i>
         <div>统计</div>
-      </li>
+      </router-link>
   
-      <li>
+      <router-link tag="li" to="/setting">
         <i class="icon iconfont icon-gongnengjianyi"></i>
         <div>设置</div>
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
 
 <script>
+
+
 export default {
   name: 'leftNav',
   data() {
