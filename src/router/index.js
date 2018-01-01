@@ -12,7 +12,7 @@ import Error from '@/components/page/Error'
 Vue.use(Router)
 
 export default new Router({
-    // mode: 'history',
+    mode: 'history',
     routes: [{
             path: '/',
             redirect: '/pos'

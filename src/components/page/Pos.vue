@@ -29,7 +29,7 @@
             <el-tab-pane label="挂单" >
               <el-collapse v-model="activeNames" >
                 <el-collapse-item  :title="bill.billId"  v-for="(bill,index) in bills" :key="index" class="left">
-                  <div v-for="food in bill.tableData" class="justify">
+                  <div v-for="(food,index) in bill.tableData" class="justify" :key="index">
                     <span>{{food.goodsName}}</span>
                     <span>{{food.count}}份</span>
                   </div>
@@ -48,7 +48,7 @@
             <div class="title">常用商品</div>
             <div class="often-goods-list">
               <ul>
-                <li v-for="goods in oftenGoods" @click="addOrderList(goods)">
+                <li v-for="(goods,index) in $store.state.oftenGoods" @click="addOrderList(goods)" :key="index">
                   <span>{{goods.goodsName}}</span>
                   <span class="o-price">￥{{goods.price}}元</span>
                 </li>
@@ -61,7 +61,7 @@
               <el-tab-pane label="汉堡">
                 <div>
                   <ul class='cookList'>
-                    <li v-for="goods in type0Goods" @click="addOrderList(goods)">
+                    <li v-for="(goods,index) in type0Goods" @click="addOrderList(goods)" :key="index">
                       <span class="foodImg">
                         <img :src="goods.goodsImg" width="100%">
                       </span>
@@ -74,7 +74,7 @@
               <el-tab-pane label="小食">
                 <div>
                   <ul class='cookList'>
-                    <li v-for="goods in type1Goods" @click="addOrderList(goods)">
+                    <li v-for="(goods,index) in type1Goods" @click="addOrderList(goods)" :key="index">
                       <span class="foodImg">
                         <img :src="goods.goodsImg" width="100%">
                       </span>
@@ -87,7 +87,7 @@
               <el-tab-pane label="饮料">
                 <div>
                   <ul class='cookList'>
-                    <li v-for="goods in type2Goods" @click="addOrderList(goods)">
+                    <li v-for="(goods,index) in type2Goods" @click="addOrderList(goods)" :key="index">
                       <span class="foodImg">
                         <img :src="goods.goodsImg" width="100%">
                       </span>
@@ -100,7 +100,7 @@
               <el-tab-pane label="套餐">
                 <div>
                   <ul class='cookList'>
-                    <li v-for="goods in type3Goods" @click="addOrderList(goods)">
+                    <li v-for="(goods,index) in type3Goods" @click="addOrderList(goods)" :key="index">
                       <span class="foodImg">
                         <img :src="goods.goodsImg" width="100%">
                       </span>
@@ -126,8 +126,8 @@ export default {
     return {
       tableData: [
       ],
-      oftenGoods: [
-      ],
+      // oftenGoods: [
+      // ],
       type0Goods: [
       ],
       type1Goods: [],
@@ -140,16 +140,6 @@ export default {
     }
   },
   created() {
-    axios.get('http://jspang.com/DemoApi/oftenGoods.php')
-      .then(response => {
-        console.log(response);
-        this.oftenGoods = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-        alert('网络错误，不能访问');
-      })
-
     //读取分类商品列表
     axios.get('http://jspang.com/DemoApi/typeGoods.php')
       .then(response => {
@@ -163,13 +153,17 @@ export default {
       .catch(error => {
         console.log(error);
         alert('网络错误，不能访问');
-      })
+      });
+    this.fetchOftenGoods();
   },
   mounted: function() {
     var orderHeight = document.body.clientHeight;
     document.querySelector("#order-list").style.height = orderHeight + 'px';
   },
   methods: {
+    fetchOftenGoods() {
+      this.$store.dispatch('getOftenGoodsAction')
+    },
     //添加订单列表的方法
     addOrderList(goods) {
       // this.totalCount = 0; //汇总数量清0
@@ -262,7 +256,7 @@ export default {
         totalMoney = totalMoney + (element.price * element.count);
       });
       return totalMoney
-    }
+    },
   }
 }
 </script>
