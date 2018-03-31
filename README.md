@@ -1,6 +1,7 @@
-# 💡 Restaurant-business-system
+# 💡 AwesomePos by JSPang
 
-- [GITHUB](https://github.com/oyster0118/Restaurant-business-system)
+- jspang博客上的练手小项目，在原来的基础上增加了```Vuex```
+- [原项目地址](https://github.com/shenghy/AwesomePOS)
 
 ## Build Setup
 
